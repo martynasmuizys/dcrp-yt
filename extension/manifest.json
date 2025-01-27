@@ -1,0 +1,19 @@
+{
+    "name": "dcrp-yt",
+    "description": "Discord rich presence extension for Youtube.",
+    "manifest_version": 2,
+    "version": "1.0",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "dcrp-yt@github.com/martynasmuizys"
+        }
+    },
+    "background": {
+        "scripts": [
+            "dcrp-yt.js"
+        ]
+    },
+    "permissions": [
+        "nativeMessaging"
+    ]
+}

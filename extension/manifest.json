@@ -5,7 +5,7 @@
     "version": "1.0",
     "browser_specific_settings": {
         "gecko": {
-            "id": "dcrp-yt@github.com/martynasmuizys"
+            "id": "dcrp-yt@martynasmuizys"
         }
     },
     "background": {

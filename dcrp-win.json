@@ -1,0 +1,7 @@
+{
+  "name": "dcrp",
+  "description": "Main application for DCRP",
+  "path": "C:\\Users\\sirzi\\Desktop\\dcrp-yt\\build\\Debug\\dcrp.exe",
+  "type": "stdio",
+  "allowed_extensions": [ "dcrp-yt@martynasmuizys" ]
+}

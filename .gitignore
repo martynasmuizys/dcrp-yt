@@ -19,3 +19,6 @@ CMakeUserPresets.json
 # Build files
 build
 .cache
+.vscode
+
+# REG ADD "HKCU\Software\Mozilla\NativeMessagingHosts\dcrp" /ve /t REG_SZ /d "C:\Users\sirzi\Desktop\dcrp-yt\dcrp-win.json" /f

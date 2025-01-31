@@ -4,7 +4,8 @@ A browser extension that displays YouTube's current playing video (from a playli
 ![Gosling](https://i.pinimg.com/originals/5e/78/08/5e78080e3427ec11e4a2c5f132fbf1f9.gif)
 
 ## Features
-- Works on Windows 10/11 (for now)
+- Supported platforms: Windows 10/11 (for now).
+- Supported browsers: Mozilla (for now).
 - Requires a host application to function properly.
 
 ## Note

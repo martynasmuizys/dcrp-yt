@@ -11,8 +11,6 @@ A browser extension that displays YouTube's current playing video (from a playli
 ## Note
 This is a fun little side project that I did to learn some stuff. Might improve might not.
 
-I could have used JavaScript library for more customization, but idc.
-
 ## Install
 Extension can be downloaded [here](https://addons.mozilla.org/firefox/downloads/file/4428655/c4e7220360094013b2a9-1.0.3.xpi).
 
@@ -21,6 +19,7 @@ Native application can be downloaded [here](https://github.com/martynasmuizys/dc
 ## TODO
 - See if it is possible to have dynamic images (from URL).
 - Remove regex functionality. Replace it with UI to add playlists or something.
+- Rewrite using Discord RPC and not Discord Game SDK. (o7)
 
 ## Another note
 Bing bong.

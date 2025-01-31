@@ -1,7 +1,7 @@
 {
   "name": "dcrp",
-  "description": "Main application for DCRP",
-  "path": "/home/martis/personal/projects/dcrp/dcrp",
+  "description": "Main application for dcrp-yt",
+  "path": ".\\dcrp.exe",
   "type": "stdio",
-  "allowed_extensions": [ "dcrp-yt@github.com/martynasmuizys" ]
+  "allowed_extensions": [ "dcrp-yt@martynasmuizys" ]
 }

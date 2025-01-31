@@ -1,0 +1,24 @@
+{
+    "addons": {
+        "{33e1c96d-16dc-4c26-acc8-a16495b4dd2f}": {
+            "updates": [
+                {
+                    "version": "1.0",
+                    "update_link": "https://addons.mozilla.org/firefox/downloads/file/4427992/c4e7220360094013b2a9-1.0.xpi"
+                },
+                {
+                    "version": "1.0.1",
+                    "update_link": "https://addons.mozilla.org/firefox/downloads/file/4428413/c4e7220360094013b2a9-1.0.1.xpi"
+                },
+                {
+                    "version": "1.0.2",
+                    "update_link": "https://addons.mozilla.org/firefox/downloads/file/4428649/c4e7220360094013b2a9-1.0.2.xpi"
+                },
+                {
+                    "version": "1.0.3",
+                    "update_link": "https://addons.mozilla.org/firefox/downloads/file/4428655/c4e7220360094013b2a9-1.0.3.xpi"
+                }
+            ]
+        }
+    }
+}

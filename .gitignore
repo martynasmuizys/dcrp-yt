@@ -21,4 +21,12 @@ build
 .cache
 .vscode
 
+dcrp-yt-setup.msi
+dcrp-yt-setup.ps1
+dcrp-yt-setup.wixpdb
+
+extension/web-ext-artifacts
+dcrp-yt.xpi
+.vscode
+
 # REG ADD "HKCU\Software\Mozilla\NativeMessagingHosts\dcrp" /ve /t REG_SZ /d "C:\Users\sirzi\Desktop\dcrp-yt\dcrp-win.json" /f

@@ -15,5 +15,9 @@ Extension can be downloaded [here](https://addons.mozilla.org/firefox/downloads/
 
 Native application can be downloaded [here](https://github.com/martynasmuizys/dcrp-yt/releases/latest).
 
+## TODO
+- See if it is possible to have dynamic images (from URL).
+- Remove regex functionality. Replace it with UI to add playlists or something.
+
 ## Another note
 Bing bong.

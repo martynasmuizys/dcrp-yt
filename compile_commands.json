@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/martis/personal/projects/dcrp",
-  "command": "/usr/bin/c++ -g -std=gnu++26 -fmodules-ts -fmodule-mapper=CMakeFiles/dcrp.dir/src/main.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/dcrp.dir/src/main.cpp.o -c /home/martis/personal/projects/dcrp/src/main.cpp",
-  "file": "/home/martis/personal/projects/dcrp/src/main.cpp",
-  "output": "CMakeFiles/dcrp.dir/src/main.cpp.o"
-}
-]

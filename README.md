@@ -21,7 +21,6 @@ Native application can be downloaded [here](https://github.com/martynasmuizys/dc
 ## TODO
 - See if it is possible to have dynamic images (from URL).
 - Remove regex functionality. Replace it with UI to add playlists or something.
-- Figure out a way to change ActivityType (if its even possible)
 
 ## Another note
 Bing bong.

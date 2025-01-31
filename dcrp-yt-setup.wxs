@@ -2,7 +2,7 @@
 <?define exe = "dcrp.exe"?>
 <?define path = ".\build\Release"?>
 <?define discord = ".\src\discord\lib\x86_64\discord_game_sdk.dll"?>
-<?define version = "1.0.0"?>
+<?define version = "1.0.3"?>
 <?define publisher = "martynasmuizys@github.com"?>
 <?define guid = "bccb2303-bed8-4abe-ab74-59481ad6fcc8"?>
 

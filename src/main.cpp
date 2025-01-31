@@ -56,7 +56,7 @@ int main()
                 activity.SetState(channel.c_str());
                 activity.SetDetails(title.c_str());
                 activity.GetAssets().SetLargeImage("bladerunner");
-                activity.GetAssets().SetLargeText("CUSTOM PRIVATE THING (might release idk)");
+                activity.GetAssets().SetLargeText("CUSTOM thing available on my github (dcrp-yt)");
                 state.core->ActivityManager().UpdateActivity(activity, [](discord::Result result){});
             }
         std::this_thread::sleep_for(std::chrono::milliseconds(16));

@@ -5,9 +5,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     let ytRegex = /https:\/\/(?:[^\/]+\.)?youtube\.com\/(?:playlist|watch).*?(?:\&|\?)list=[^&\s]+/;
     let [tab] = await browser.tabs.query({ active: true, currentWindow: true });
 
+    let playlistAdded = () => {
+        btn.textContent = "Remove";
+        text.textContent = "Playlist is tracked";
+        status.textContent = "✔";
+        status.style.color = "green";
+        browser.runtime.sendMessage("add_playlist");
+        btn.onclick = playlistRemoved;
+    };
+
+    let playlistRemoved = () => {
+        btn.textContent = "Add";
+        text.textContent = "Playlist is not tracked";
+        status.textContent = "✖";
+        status.style.color = "red";
+        browser.runtime.sendMessage("remove_playlist");
+        btn.onclick = playlistAdded;
+    };
+
     if (tab.url.match(ytRegex)) {
         browser.storage.local.get("playlists").then((ret) => {
-            let {playlists} = ret;
+            let { playlists } = ret;
             if (playlists && playlists.length > 0) {
                 playlists.forEach((e) => {
                     let tquery = new URLSearchParams("?" + tab.url.split("?")[1]);
@@ -23,13 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 let playlists = ret.playlists;
                                 let idx = playlists.indexOf({ id: e.id });
                                 playlists.splice(idx, 1);
-                                browser.storage.local.set({ playlists }).then(() => {
-                                    btn.textContent = "Add";
-                                    text.textContent = "Playlist is not tracked";
-                                    status.textContent = "✖";
-                                    status.style.color = "red";
-                                    browser.runtime.sendMessage("remove_playlist");
-                                });
+                                browser.storage.local.set({ playlists }).then(playlistRemoved);
                             });
                         };
                     } else {
@@ -37,13 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             browser.storage.local.get("playlists").then((ret) => {
                                 let playlists = ret.playlists;
                                 playlists.push({ id: tquery.get("list") });
-                                browser.storage.local.set({ playlists }).then(() => {
-                                    btn.textContent = "Remove";
-                                    text.textContent = "Playlist is tracked";
-                                    status.textContent = "✔";
-                                    status.style.color = "green";
-                                    browser.runtime.sendMessage("add_playlist");
-                                });
+                                browser.storage.local.set({ playlists }).then(playlistAdded);
                             });
                         };
                     }
@@ -55,13 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         .set({
                             playlists: [{ id: tquery.get("list") }],
                         })
-                        .then(() => {
-                            btn.textContent = "Remove";
-                            text.textContent = "Playlist is tracked";
-                            status.textContent = "✔";
-                            status.style.color = "green";
-                            browser.runtime.sendMessage("add_playlist");
-                        });
+                        .then(playlistAdded);
                 };
             }
         });

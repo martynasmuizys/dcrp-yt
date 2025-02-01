@@ -129,7 +129,6 @@ async function initNativeApp(m) {
                 .then((ret) => ret[0].result);
 
             let thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-
             // Permissions should be granted at install time.
             try {
                 let res = await fetch(thumbnail, {method: "HEAD", mode: "same-origin"})
@@ -208,7 +207,7 @@ browser.permissions.onRemoved.addListener(() => {
 });
 
 browser.permissions.getAll().then((p) => {
-    if (p.origins[0] == "*://www.youtube.com/*") {
+    if (p.origins[0] == "*://*.youtube.com/*") {
         handlePermissions();
     }
 });

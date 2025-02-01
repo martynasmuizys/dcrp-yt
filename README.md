@@ -1,5 +1,5 @@
 # Discord Rich Presence for Youtube
-"dcrp-yt" is a browser extension that displays YouTube's current playing video (from a playlist) as Discord activity.
+"dcrp-yt" is a browser extension that displays YouTube's current playing playlist video as Discord activity.
 
 ![Gosling](./screenshots/rpc.png)
 

@@ -68,6 +68,14 @@ async function handleUpdate(id) {
                     }
                 });
             }
+        } else {
+            if (port) {
+                port.disconnect();
+                port = undefined;
+            }
+            isPlaylist = false;
+            isPlaying = false;
+            tabId = undefined;
         }
     });
 }
@@ -131,8 +139,8 @@ async function initNativeApp(m) {
             let thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
             // Permissions should be granted at install time.
             try {
-                let res = await fetch(thumbnail, {method: "HEAD", mode: "same-origin"})
-                if(res.status != 200) {
+                let res = await fetch(thumbnail, { method: "HEAD", mode: "same-origin" });
+                if (res.status != 200) {
                     thumbnail = `https://img.youtube.com/vi/${videoId}/0.jpg`;
                 }
             } catch {}

@@ -14,7 +14,9 @@ This is a fun little side project that I did to learn some stuff. Might improve 
 Using JavaScript SDK would have been better, but idc. Don't want to make this a major thingy.
 
 ## Install
-Native application and extension can be downloaded [here](https://github.com/martynasmuizys/dcrp-yt/releases/latest).
+Latest extension can be downloaded [here](https://github.com/martynasmuizys/dcrp-yt/releases/latest).
+
+Native application installer can be downloaded [here](https://github.com/martynasmuizys/dcrp-yt/releases/download/v1.1.0/dcrp-yt-setup.msi)
 
 ## TODO
 - See if it is possible to have dynamic images (from URL).

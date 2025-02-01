@@ -14,7 +14,7 @@ async function handleYoutube() {
                 if (!document.querySelector('video[class*="video-stream html5-main-video"]').paused) {
                     setTimeout(() => {
                         browser.runtime.sendMessage("video_playing");
-                    }, 3000);
+                    }, 1000);
                     return true;
                 }
                 return false;

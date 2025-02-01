@@ -2,7 +2,7 @@ var isPlaying;
 var isPlaylist = false;
 var tabId;
 
-var ytRegex = /https:\/\/(?:[^\/]+\.)?youtube\.com\/(?:playlist|watch).*?(?:\&|\?)list=[^&\s]+/;
+var ytRegex = /https:\/\/(?:[^\/]+\.)?youtube\.com\/watch.*?(?:\&|\?)list=[^&\s]+/;
 var port;
 var minLength = 2;
 
@@ -40,7 +40,7 @@ async function handleYoutube() {
 }
 
 function handleCreate(tab) {
-    if (isPlaylist) return;
+    if (isPlaylist && isPlaying) return;
 
     browser.tabs.get(tab.id).then(async (tab) => {
         if (tab.url.match(ytRegex)) {
@@ -52,7 +52,7 @@ function handleCreate(tab) {
 }
 
 async function handleUpdate(id) {
-    if (isPlaylist) return;
+    if (isPlaylist && isPlaying) return;
 
     browser.tabs.get(id).then(async (tab) => {
         if (tab.url.match(ytRegex)) {

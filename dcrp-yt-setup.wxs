@@ -1,14 +1,16 @@
 ﻿<?define name = "dcrp-yt"?>
 <?define exe = "dcrp.exe"?>
 <?define path = ".\build\Release"?>
-<?define discord = ".\src\discord\lib\x86_64\discord_game_sdk.dll"?>
-<?define version = "1.0.3"?>
+<?define dlls = ".\src\discord\lib\x86_64\"?>
+<?define version = "1.1.0"?>
 <?define publisher = "martynasmuizys@github.com"?>
 <?define guid = "bccb2303-bed8-4abe-ab74-59481ad6fcc8"?>
 
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
         <Package Name="$(var.name)" Manufacturer="$(var.publisher)" Version="$(var.version)"
                 UpgradeCode="$(var.guid)" InstallerVersion="500" Scope="perMachine">
+
+                <MajorUpgrade DowngradeErrorMessage="A newer version of this application is already installed." />
 
                 <Media Id="1" Cabinet="setup.cab" EmbedCab="yes" />
 
@@ -21,8 +23,8 @@
                                         <Component Id="file" DiskId="1" Guid="$(var.guid)">
                                                 <File Id="executable" Name="$(var.exe)"
                                                         Source="$(var.path)\$(var.exe)" KeyPath="yes"/>
-                                                <File Id="dll" Name="discord_game_sdk.dll"
-                                                        Source="$(var.discord)" />
+                                                <File Id="discordgamesdk" Name="discord_game_sdk.dll"
+                                                        Source="$(var.dlls)discord_game_sdk.dll" />
                                                 <File Id="config" Name="dcrp.json"
                                                         Source=".\dcrp.json"/>
                                                 <RegistryKey Root="HKCU" Key="Software\Mozilla\NativeMessagingHosts\dcrp" ForceCreateOnInstall="yes" >

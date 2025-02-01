@@ -2,16 +2,20 @@
     "name": "dcrp-yt",
     "description": "Discord rich presence extension for Youtube.",
     "manifest_version": 3,
-    "version": "1.0.3",
+    "version": "1.1.0",
     "browser_specific_settings": {
         "gecko": {
             "id": "dcrp-yt@martynasmuizys",
-            "updates_url": "https://github.com/martynasmuizys/dcrp-yt/blob/main/updates.json"
+            "update_url": "https://github.com/martynasmuizys/dcrp-yt/blob/main/updates.json"
         }
+    },
+    "action": {
+        "default_title": "dcrp-yt",
+        "default_popup": "popup/popup.html"
     },
     "background": {
         "scripts": ["background.js"]
     },
-    "permissions": ["nativeMessaging", "tabs", "scripting"],
-    "host_permissions": ["*://www.youtube.com/*"]
+    "permissions": ["nativeMessaging", "tabs", "activeTab", "scripting", "storage"],
+    "host_permissions": ["*://*.youtube.com/*"]
 }

@@ -20,15 +20,17 @@ namespace {
 
     std::string title = "";
 
+    std::string thumbnail = "";
+
     std::mutex mtx;
 }
 
 int main()
 {
     DiscordState state{};
-
     discord::Core* core{};
     auto result = discord::Core::Create(1333609267143643278, DiscordCreateFlags_NoRequireDiscord, &core);
+    
     state.core.reset(core);
     if (!state.core) {
         std::cout << "Failed to instantiate discord core! (err " << static_cast<int>(result)
@@ -48,13 +50,13 @@ int main()
                 mtx.lock();
                 last_channel = channel;
                 last_title = title;
+                std::string thumb = thumbnail;
                 mtx.unlock();
 
                 discord::Activity activity{};
-                activity.SetState(channel.c_str());
-                activity.SetDetails(title.c_str());
-                activity.GetAssets().SetLargeImage("bladerunner");
-                activity.GetAssets().SetLargeText("CUSTOM thing available on my github (dcrp-yt)");
+                activity.SetState(last_channel.c_str());
+                activity.SetDetails(last_title.c_str());
+                activity.GetAssets().SetLargeImage(thumb.c_str());
                 state.core->ActivityManager().UpdateActivity(activity, [](discord::Result result){});
             }
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
@@ -80,6 +82,7 @@ int main()
             mtx.lock();
             channel = parsed["channel_name"];
             title = parsed["video_title"];
+            thumbnail = parsed["thumbnail"];
             mtx.unlock();
         }
     });

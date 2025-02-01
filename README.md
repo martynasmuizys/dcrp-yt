@@ -1,7 +1,7 @@
 # dcrp-yt
 A browser extension that displays YouTube's current playing video (from a playlist) as Discord activity.
 
-![Gosling](https://i.pinimg.com/originals/5e/78/08/5e78080e3427ec11e4a2c5f132fbf1f9.gif)
+![Gosling](./screenshots/rpc.png)
 
 ## Features
 - Supported platforms: Windows 10/11 (for now).

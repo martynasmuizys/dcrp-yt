@@ -21,6 +21,10 @@
                 {
                     "version": "1.1.0",
                     "update_link": "https://addons.mozilla.org/firefox/downloads/file/4429144/c4e7220360094013b2a9-1.1.0.xpi"
+                },
+                {
+                    "version": "1.1.1",
+                    "update_link": "https://addons.mozilla.org/firefox/downloads/file/4429148/c4e7220360094013b2a9-1.1.1.xpi"
                 }
             ]
         }

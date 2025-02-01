@@ -1,8 +1,7 @@
 var isPlaying;
-var isPlaylist = false;
 var tabId;
 
-var ytRegex = /https:\/\/(?:[^\/]+\.)?youtube\.com\/watch.*?(?:\&|\?)list=[^&\s]+/;
+var ytRegex = /https:\/\/(?:[^\/]+\.)?youtube\.com\/(?:playlist|watch).*?(?:\&|\?)list=[^&\s]+/;
 var port;
 var minLength = 2;
 
@@ -14,7 +13,7 @@ async function handleYoutube() {
                 if (!document.querySelector('video[class*="video-stream html5-main-video"]').paused) {
                     setTimeout(() => {
                         browser.runtime.sendMessage("video_playing");
-                    }, 1000);
+                    }, 2000);
                     return true;
                 }
                 return false;
@@ -33,18 +32,17 @@ async function handleYoutube() {
                 // give a second in case of loading
                 setTimeout(() => {
                     browser.runtime.sendMessage("video_playing");
-                }, 1000);
+                }, 2000);
             };
         },
     });
 }
 
 function handleCreate(tab) {
-    if (isPlaylist && isPlaying) return;
+    if (isPlaying) return;
 
     browser.tabs.get(tab.id).then(async (tab) => {
         if (tab.url.match(ytRegex)) {
-            isPlaylist = true;
             tabId = tab.id;
             handleYoutube();
         }
@@ -52,11 +50,8 @@ function handleCreate(tab) {
 }
 
 async function handleUpdate(id) {
-    if (isPlaylist && isPlaying) return;
-
     browser.tabs.get(id).then(async (tab) => {
         if (tab.url.match(ytRegex)) {
-            isPlaylist = true;
             tabId = tab.id;
             let query = new URLSearchParams(tab.url.split("watch")[1]);
             let { playlists } = await browser.storage.local.get("playlists");
@@ -68,39 +63,20 @@ async function handleUpdate(id) {
                     }
                 });
             }
-        } else {
-            if (port) {
-                port.disconnect();
-                port = undefined;
-            }
-            isPlaylist = false;
-            isPlaying = false;
-            tabId = undefined;
         }
     });
 }
 
 async function handleDelete(id) {
     if (id == tabId) {
-        await browser.scripting.executeScript({
-            target: { tabId: tabId },
-            func: () => {
-                let video = document.querySelector('video[class*="video-stream html5-main-video"]');
-                // remove listeners
-                video.onpause = () => {};
-                video.onplaying = () => {};
-            },
-        });
         if (port) {
             port.disconnect();
             port = undefined;
         }
-        isPlaylist = false;
         isPlaying = false;
         tabId = undefined;
     }
-    browser.tabs.query({ currentWindow: true, active: false }).then(init, console.error);
-    browser.tabs.query({ currentWindow: true, active: true }).then(init, console.error);
+    scanTabs();
 }
 
 async function initNativeApp(m) {
@@ -108,6 +84,7 @@ async function initNativeApp(m) {
         case "video_paused":
             if (port) {
                 port.disconnect();
+                isPlaying = false;
                 port = undefined;
             }
             break;
@@ -137,7 +114,6 @@ async function initNativeApp(m) {
                 .then((ret) => ret[0].result);
 
             let thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-            // Permissions should be granted at install time.
             try {
                 let res = await fetch(thumbnail, { method: "HEAD", mode: "same-origin" });
                 if (res.status != 200) {
@@ -160,14 +136,17 @@ async function initNativeApp(m) {
                     channel_name: channelName,
                     video_title: videoTitle,
                     thumbnail,
+                    stop: "no",
                 });
             } else {
                 port.postMessage({
                     channel_name: channelName,
                     video_title: videoTitle,
                     thumbnail,
+                    stop: "no",
                 });
             }
+            isPlaying = true;
             break;
         default:
             break;
@@ -177,7 +156,6 @@ async function initNativeApp(m) {
 async function init(tabs) {
     tabs.forEach(async (e) => {
         if (e.url.match(ytRegex)) {
-            isPlaylist = true;
             tabId = e.id;
             let query = new URLSearchParams(e.url.split("watch")[1]);
             let { playlists } = await browser.storage.local.get("playlists");
@@ -198,8 +176,7 @@ function handlePermissions() {
     browser.tabs.onUpdated.addListener(handleUpdate);
     browser.tabs.onRemoved.addListener(handleDelete);
 
-    browser.tabs.query({ currentWindow: true, active: false }).then(init, console.error);
-    browser.tabs.query({ currentWindow: true, active: true }).then(init, console.error);
+    scanTabs();
 
     browser.runtime.onMessage.addListener(initNativeApp);
 }
@@ -210,6 +187,7 @@ browser.permissions.onRemoved.addListener(() => {
     browser.tabs.onCreated.removeListener(handleCreate);
     browser.tabs.onUpdated.removeListener(handleUpdate);
     browser.tabs.onRemoved.removeListener(handleDelete);
+    browser.tabs.onActivated.removeListener(handleUpdate);
 
     browser.runtime.onMessage.removeListener(initNativeApp);
 });
@@ -226,13 +204,28 @@ browser.runtime.onMessage.addListener((m) => {
             browser.tabs.query({ currentWindow: true, active: true }).then(init, console.error);
             break;
         case "remove_playlist":
-            browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+            browser.tabs.query({ currentWindow: true, active: true }).then(async (tabs) => {
                 if (tabs[0].id == tabId) {
-                    handleDelete(tabId);
+                    await browser.scripting.executeScript({
+                        target: { tabId: tabId },
+                        func: () => {
+                            let video = document.querySelector('video[class*="video-stream html5-main-video"]');
+                            // remove listeners
+                            video.onplaying = null;
+                            video.onpause = null;
+                        },
+                    });
+                    handleDelete(tabs[0].id)
                 }
             });
             break;
+        case "get_active_playlist":
         default:
             break;
     }
 });
+
+function scanTabs() {
+    browser.tabs.query({ currentWindow: true, active: false }).then(init);
+    browser.tabs.query({ currentWindow: true, active: true }).then(init);
+}

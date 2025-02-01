@@ -5,22 +5,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     let ytRegex = /https:\/\/(?:[^\/]+\.)?youtube\.com\/(?:playlist|watch).*?(?:\&|\?)list=[^&\s]+/;
     let [tab] = await browser.tabs.query({ active: true, currentWindow: true });
 
-    let playlistAdded = () => {
+    let playlistAdded = (id) => {
         btn.textContent = "Remove";
         text.textContent = "Playlist is tracked";
         status.textContent = "✔";
         status.style.color = "green";
+        btn.onclick = () => removePlaylist(id);
         browser.runtime.sendMessage("add_playlist");
-        btn.onclick = playlistRemoved;
     };
 
-    let playlistRemoved = () => {
+    let removePlaylist = async (id) => {
+        let { playlists } = await browser.storage.local.get("playlists");
+        let idx = playlists.indexOf({ id });
+        playlists.splice(idx, 1);
+
+        await browser.storage.local.set({ playlists });
+
         btn.textContent = "Add";
         text.textContent = "Playlist is not tracked";
         status.textContent = "✖";
         status.style.color = "red";
+        let after = await browser.storage.local.get("playlists").playlists;
+
         browser.runtime.sendMessage("remove_playlist");
-        btn.onclick = playlistAdded;
+        btn.onclick = () => addPlaylist(id);
+    };
+
+    let addPlaylist = async (id) => {
+        let { playlists } = await browser.storage.local.get("playlists");
+
+        if (playlists && playlists.length > 0) {
+            playlists.push({ id });
+            await browser.storage.local.set({ playlists });
+            playlistAdded(id);
+        } else {
+            await browser.storage.local.set({
+                playlists: [{ id }],
+            });
+            playlistAdded(id);
+        }
     };
 
     if (tab.url.match(ytRegex)) {
@@ -36,33 +59,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                         status.textContent = "✔";
                         status.style.color = "green";
 
-                        btn.onclick = () => {
-                            browser.storage.local.get("playlists").then((ret) => {
-                                let playlists = ret.playlists;
-                                let idx = playlists.indexOf({ id: e.id });
-                                playlists.splice(idx, 1);
-                                browser.storage.local.set({ playlists }).then(playlistRemoved);
-                            });
-                        };
+                        btn.onclick = () => removePlaylist(e.id);
                     } else {
-                        btn.onclick = () => {
-                            browser.storage.local.get("playlists").then((ret) => {
-                                let playlists = ret.playlists;
-                                playlists.push({ id: tquery.get("list") });
-                                browser.storage.local.set({ playlists }).then(playlistAdded);
-                            });
-                        };
+                        btn.onclick = () => addPlaylist(tquery.get("list"));
                     }
                 });
             } else {
                 let tquery = new URLSearchParams("?" + tab.url.split("?")[1]);
-                btn.onclick = () => {
-                    browser.storage.local
-                        .set({
-                            playlists: [{ id: tquery.get("list") }],
-                        })
-                        .then(playlistAdded);
-                };
+                btn.onclick = () => addPlaylist(tquery.get("list"));
             }
         });
     } else {

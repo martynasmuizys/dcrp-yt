@@ -72,7 +72,7 @@ int main()
             std::cin.read(buf.data(), recv_msg_len);
             std::string data(buf.begin(), buf.end());
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(3));
+            std::this_thread::sleep_for(std::chrono::seconds(2));
 
             if (data.empty()) {
                 continue;

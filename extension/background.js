@@ -5,8 +5,8 @@ var ytRegex = /https:\/\/(?:[^\/]+\.)?youtube\.com\/(?:playlist|watch).*?(?:\&|\
 var port;
 var minLength = 2;
 
-async function handleYoutube() {
-    isPlaying = await browser.scripting
+function handleYoutube() {
+    browser.scripting
         .executeScript({
             target: { tabId: tabId },
             func: () => {
@@ -19,9 +19,9 @@ async function handleYoutube() {
                 return false;
             },
         })
-        .then((ret) => ret[0].result);
+        .then((ret) => isPlaying = ret[0].result);
 
-    await browser.scripting.executeScript({
+    browser.scripting.executeScript({
         target: { tabId: tabId },
         func: () => {
             let video = document.querySelector('video[class*="video-stream html5-main-video"]');
@@ -49,7 +49,9 @@ function handleCreate(tab) {
     });
 }
 
-async function handleUpdate(id) {
+function handleUpdate(id) {
+    if(isPlaying) return;
+    
     browser.tabs.get(id).then(async (tab) => {
         if (tab.url.match(ytRegex)) {
             tabId = tab.id;
@@ -67,7 +69,7 @@ async function handleUpdate(id) {
     });
 }
 
-async function handleDelete(id) {
+function handleDelete(id) {
     if (id == tabId) {
         if (port) {
             port.disconnect();

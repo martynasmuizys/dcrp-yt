@@ -7,8 +7,8 @@
 - Supported platforms: Windows 10/11 (for now);
 - Supported browsers: Mozilla;
 - Requires a host application to function properly;
-- Select playlist to track;
-- Multiple plylist support.
+- Select a playlist to track;
+- Multiple playlist support.
 
 ## Note
 🗿 This is a fun little side project that I did to learn some stuff. Might improve might not. Using some JavaScript library (such as Discord Embedded SDK or discordjs/RPC) would have been better, but idc. Don't want to make this a major thingy.
